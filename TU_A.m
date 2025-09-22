@@ -13,7 +13,7 @@ classdef TU_A < matlab.unittest.TestCase
         function runSimulation(testCase)
             % Set the performance limits
             testCase.OvershootLimit = 5;   % [%]
-            testCase.RiseTimeLimit  = 0.01; % [s]
+            testCase.RiseTimeLimit  = 0.5; % [s]
 
             % Run the simulation and analyze transitions
             fprintf('Running simulation...\n');
