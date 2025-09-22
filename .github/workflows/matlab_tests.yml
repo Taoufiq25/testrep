@@ -22,4 +22,5 @@ jobs:
         matlab -batch "disp('Running MATLAB unit tests...'); \
                       addpath(pwd); \
                       results = runtests('TU_A'); \
-                      disp(table(results))"
+                      disp(results); \
+                      assert(all([results.Passed]), 'One or more MATLAB tests failed!')"
