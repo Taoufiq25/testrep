@@ -11,20 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout repo
+        uses: actions/checkout@v3
 
-    - name: Setup MATLAB
-      uses: matlab-actions/setup-matlab@v1
+      - name: Setup MATLAB
+        uses: matlab-actions/setup-matlab@v1
 
-    - name: Run Unit Tests
-      run: |
-        matlab -batch "addpath(pwd); \
-                      results = runtests('TU_A'); \
-                      disp(results); \
-                      if any(~[results.Passed]); \
-                          disp('One or more MATLAB tests failed!'); \
-                          % Write GitHub Actions error annotation
-                          fprintf('::error file=%s,line=%d::%s\n','TU_A.m',1,'MATLAB Unit Test Failed: Check rise time / overshoot limits'); \
-                          exit(1); \
-                      end"
+      - name: Run MATLAB Tests
+        run: |
+          matlab -batch "addpath(pwd); \
+                        results = runtests('TU_A'); \
+                        disp(results); \
+                        if any(~[results.Passed]); \
+                            fprintf('::error file=%s,line=%d::%s\n','TU_A.m',1,'MATLAB Unit Test Failed: RiseTime or Overshoot exceeded limit'); \
+                            exit(1); \
+                        end"
