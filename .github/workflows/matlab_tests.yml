@@ -19,8 +19,12 @@ jobs:
 
     - name: Run Unit Tests
       run: |
-        matlab -batch "disp('Running MATLAB unit tests...'); \
-                      addpath(pwd); \
+        matlab -batch "addpath(pwd); \
                       results = runtests('TU_A'); \
                       disp(results); \
-                      assert(all([results.Passed]), 'One or more MATLAB tests failed!')"
+                      if any(~[results.Passed]); \
+                          disp('One or more MATLAB tests failed!'); \
+                          % Write GitHub Actions error annotation
+                          fprintf('::error file=%s,line=%d::%s\n','TU_A.m',1,'MATLAB Unit Test Failed: Check rise time / overshoot limits'); \
+                          exit(1); \
+                      end"
